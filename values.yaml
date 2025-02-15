@@ -6,6 +6,9 @@ replicaCount: 1
 # topology.kubernetes.io/zone 설정 필요
 ##
 
+imagePullSecrets:
+  - name: regsecret
+
 image:
   repository: ghcr.io/puljam-project/puljam_backend
   pullPolicy: Always
