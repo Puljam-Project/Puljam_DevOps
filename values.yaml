@@ -1,0 +1,90 @@
+# replicaCount: 2
+replicaCount: 1
+
+##
+# topology.kubernetes.io/zone 설정 필요
+##
+
+image:
+  repository: ghcr.io/puljam-project/puljam_backend
+  pullPolicy: Always
+  tag: "latest"
+
+envFrom:
+  - secretRef:
+      name: puljam-devops
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1001
+  allowPrivilegeEscalation: false
+  privileged: false
+
+ingress:
+  enabled: true
+  className: "traefik"
+  hosts:
+    - host: api.mya.ong
+      paths:
+        - path: /
+          pathType: Prefix
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: 10002
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+service:
+  type: ClusterIP
+  port: 10002
+  targetPort: 10002
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  # minReplicas: 2
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+# affinity:
+#   podAntiAffinity:
+#     preferredDuringSchedulingIgnoredDuringExecution:
+#     - weight: 100
+#       podAffinityTerm:
+#         labelSelector:
+#           matchExpressions:
+#           - key: app.kubernetes.io/name
+#             operator: In
+#             values:
+#             - puljam-devops
+#         topologyKey: topology.kubernetes.io/zone
+
+# topologySpreadConstraints:
+#   - maxSkew: 1
+#     topologyKey: topology.kubernetes.io/zone
+#     whenUnsatisfied: ScheduleAnyway
+#     labelSelector:
+#       matchLabels:
+#         app.kubernetes.io/name: puljam-devops
