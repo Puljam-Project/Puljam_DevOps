@@ -15,9 +15,11 @@ image:
   tag: "latest"
   platform: "linux/amd64"
 
-envFrom:
-  - secretRef:
-      name: puljam-devops
+containers:
+  - name: puljam-backend
+    envFrom:
+      - secretRef:
+          name: puljam-devops
 
 serviceAccount:
   create: true
