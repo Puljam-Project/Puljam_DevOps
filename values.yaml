@@ -15,12 +15,6 @@ image:
   tag: "latest"
   platform: "linux/amd64"
 
-containers:
-  - name: puljam-backend
-    envFrom:
-      - secretRef:
-          name: puljam-devops
-
 serviceAccount:
   create: true
   automount: true

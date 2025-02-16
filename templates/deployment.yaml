@@ -49,6 +49,9 @@ spec:
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
+          envFrom:
+            - secretRef:
+                name: puljam-devops
           {{- end }}
       {{- with .Values.volumes }}
       volumes:
