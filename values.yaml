@@ -13,6 +13,7 @@ image:
   repository: ghcr.io/puljam-project/puljam_backend
   pullPolicy: Always
   tag: "latest"
+  platform: "linux/amd64"
 
 envFrom:
   - secretRef:
