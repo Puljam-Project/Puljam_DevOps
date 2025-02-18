@@ -29,7 +29,7 @@ securityContext:
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1001
-  allowPrivilegeEscalation: true
+  allowPrivilegeEscalation: false
   privileged: false
 
 ingress:
@@ -70,7 +70,6 @@ autoscaling:
   maxReplicas: 4
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
-
 # affinity:
 #   podAntiAffinity:
 #     preferredDuringSchedulingIgnoredDuringExecution:
