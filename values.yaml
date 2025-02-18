@@ -2,6 +2,7 @@ namespace: puljam
 
 # replicaCount: 2
 replicaCount: 1
+
 ##
 # topology.kubernetes.io/zone 설정 필요
 ##
@@ -28,7 +29,7 @@ securityContext:
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1001
-  allowPrivilegeEscalation: false
+  allowPrivilegeEscalation: true
   privileged: false
 
 ingress:
@@ -44,7 +45,7 @@ livenessProbe:
   httpGet:
     path: /
     port: 10002
-  initialDelaySeconds: 30
+  initialDelaySeconds: 15
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 3
@@ -56,11 +57,11 @@ service:
 
 resources:
   limits:
+    cpu: 1000m
+    memory: 1024Mi
+  requests:
     cpu: 500m
     memory: 512Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
 
 autoscaling:
   enabled: true
@@ -69,6 +70,7 @@ autoscaling:
   maxReplicas: 4
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
+
 # affinity:
 #   podAntiAffinity:
 #     preferredDuringSchedulingIgnoredDuringExecution:
