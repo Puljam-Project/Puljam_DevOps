@@ -36,7 +36,7 @@ ingress:
   enabled: true
   className: "traefik"
   hosts:
-    - host: api.mya.ong
+    - host: puljam-api.mya.ong
       paths:
         - path: /
           pathType: Prefix
